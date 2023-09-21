@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, FlatList, Image, Platform, Pressable } from "react-native";
+// import EmojiSelector, { Categories } from "react-native-emoji-selector";
 
 export default function EmojiList({ onSelect, onCloseModal }) {
     const [emoji] = useState([
@@ -29,6 +30,10 @@ export default function EmojiList({ onSelect, onCloseModal }) {
         );
       }}
     />
+//     <EmojiSelector
+//   category={Categories.symbols}
+//   onEmojiSelected={emoji => console.log(emoji)} 
+// />
   );
 }
 
