@@ -42,10 +42,10 @@ export default function EmojiSticker({ imageSize, stickerSource }) {
       const imageWidth = 320;
       const imageHeight = 440;
 
-      const maxX = imageWidth;
+      const maxX = imageWidth - 40;
       const minX = 0;
-      const maxY = imageHeight;
-      const minY = -imageHeight / 2;
+      const maxY = imageHeight -58 - 40 * 2;
+      const minY = -58 - 40;
 
       const clampedX = Math.min(Math.max(newX, minX), maxX);
       const clampedY = Math.min(Math.max(newY, minY), maxY);
