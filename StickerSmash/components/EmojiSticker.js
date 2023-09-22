@@ -18,14 +18,15 @@ export default function EmojiSticker({ imageSize, stickerSource }) {
     onActive: () => {
       if (scaleImage.value !== imageSize * 2) {
         scaleImage.value = scaleImage.value * 2;
+      } else {
+        scaleImage.value = scaleImage.value / 2;
       }
     },
   });
 
   const imageStyle = useAnimatedStyle(() => {
     return {
-      width: withSpring(scaleImage.value),
-      height: withSpring(scaleImage.value),
+      fontSize: withSpring(scaleImage.value),
     };
   });
 
@@ -35,8 +36,23 @@ export default function EmojiSticker({ imageSize, stickerSource }) {
       context.translateY = translateY.value;
     },
     onActive: (event, context) => {
-      translateX.value = event.translationX + context.translateX;
-      translateY.value = event.translationY + context.translateY;
+      const newX = event.translationX + context.translateX;
+      const newY = event.translationY + context.translateY;
+
+      const imageWidth = 320;
+      const imageHeight = 440;
+
+      const maxX = imageWidth;
+      const minX = 0;
+      const maxY = imageHeight;
+      const minY = -imageHeight / 2;
+
+      const clampedX = Math.min(Math.max(newX, minX), maxX);
+      const clampedY = Math.min(Math.max(newY, minY), maxY);
+
+      translateX.value = clampedX;
+      translateY.value = clampedY;
+
     },
   });
 
@@ -57,11 +73,9 @@ export default function EmojiSticker({ imageSize, stickerSource }) {
     <PanGestureHandler onGestureEvent={onDrag}>
       <AnimatedView style={[containerStyle, {top: -350 }]}>
       <TapGestureHandler onGestureEvent={onDoubleTap} numberOfTaps={2}>
-        <Animated.Image
-          source={stickerSource}
-          resizeMode="contain"
-          style={[imageStyle, { width: imageSize, height: imageSize }]}
-        />
+        <Animated.Text
+          style={[imageStyle, { fontSize: imageSize }]}
+        >{stickerSource}</Animated.Text>
       </TapGestureHandler>
     </AnimatedView>
     </PanGestureHandler>

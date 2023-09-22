@@ -1,39 +1,39 @@
-import React, { useState } from "react";
-import { StyleSheet, FlatList, Image, Platform, Pressable } from "react-native";
-// import EmojiSelector, { Categories } from "react-native-emoji-selector";
+import React from "react";
+import { StyleSheet, Image, Platform, Pressable } from "react-native";
+import EmojiSelector, { Categories } from "react-native-emoji-selector";
 
 export default function EmojiList({ onSelect, onCloseModal }) {
-    const [emoji] = useState([
-        require('../assets/images/emoji1.png'),
-        require('../assets/images/emoji2.png'),
-        require('../assets/images/emoji3.png'),
-        require('../assets/images/emoji4.png'),
-        require('../assets/images/emoji5.png'),
-        require('../assets/images/emoji6.png'),
-    ]);
+    // const [emoji] = useState([
+    //     require('../assets/images/emoji1.png'),
+    //     require('../assets/images/emoji2.png'),
+    //     require('../assets/images/emoji3.png'),
+    //     require('../assets/images/emoji4.png'),
+    //     require('../assets/images/emoji5.png'),
+    //     require('../assets/images/emoji6.png'),
+    // ]);
 
     return (
-        <FlatList
+        <EmojiSelector
       horizontal
       showsHorizontalScrollIndicator={Platform.OS === 'web'}
-      data={emoji}
+      category={Categories.symbols}
+      showSearchBar={false}
+      onEmojiSelected={emoji => {
+        onSelect(emoji);
+        onCloseModal();
+      }}
       contentContainerStyle={styles.listContainer}
-      renderItem={({ item, index }) => {
+      renderItem={({ categories, index }) => {
         return (
           <Pressable
             onPress={() => {
-              onSelect(item);
-              onCloseModal();
+              onEmojiSelected(categories);
             }}>
-            <Image source={item} key={index} style={styles.image} />
+            <Image source={categories} key={index} style={styles.image} />
           </Pressable>
         );
       }}
     />
-//     <EmojiSelector
-//   category={Categories.symbols}
-//   onEmojiSelected={emoji => console.log(emoji)} 
-// />
   );
 }
 
